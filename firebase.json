@@ -1,0 +1,68 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "flashsale-52932",
+          "appId": "1:568300570141:android:f837edb4ccd080961868f4",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "flashsale-52932",
+          "configurations": {
+            "android": "1:568300570141:android:f837edb4ccd080961868f4",
+            "ios": "1:568300570141:ios:d005aea68c519cff1868f4",
+            "macos": "1:568300570141:ios:d005aea68c519cff1868f4",
+            "web": "1:568300570141:web:e149a556d436965c1868f4",
+            "windows": "1:568300570141:web:7a7d9a9a5bf66d641868f4"
+          }
+        }
+      }
+    }
+  },
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "default",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ],
+      "predeploy": [
+        "npm --prefix \"$RESOURCE_DIR\" run lint"
+      ]
+    }
+  ],
+  "data": {
+    "firestore": {
+      "flash_sale/status": {
+        "isActive": true,
+        "endsAt": { "seconds": 1718231400, "nanoseconds": 0 }
+      },
+      "product1": {
+        "name": "Supplements",
+        "price": 25.00,
+        "image": "assets/images/supplements.jpg",
+        "discount": 20
+      },
+      "product2": {
+        "name": "Cough Syrup",
+        "price": 35.00,
+        "image": "https://your-image-url.com/cough-syrup.jpg",
+        "discount": 20
+      },
+      "product3": {
+        "name": "Personal Care",
+        "price": 45.00,
+        "image": "https://your-image-url.com/personal-care.jpg",
+        "discount": 20
+      }
+    }
+  }
+}
+

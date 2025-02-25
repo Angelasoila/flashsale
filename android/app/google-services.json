@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "568300570141",
+    "project_id": "flashsale-52932",
+    "storage_bucket": "flashsale-52932.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:568300570141:android:f837edb4ccd080961868f4",
+        "android_client_info": {
+          "package_name": "com.example.flutter_application_1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPiwq6H6KOMavOEYk3om8pPnUk4A_yHGw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
