@@ -44,25 +44,28 @@
         "isActive": true,
         "endsAt": { "seconds": 1718231400, "nanoseconds": 0 }
       },
-      "product1": {
-        "name": "Supplements",
-        "price": 25.00,
-        "image": "assets/images/supplements.jpg",
-        "discount": 20
-      },
-      "product2": {
-        "name": "Cough Syrup",
-        "price": 35.00,
-        "image": "https://your-image-url.com/cough-syrup.jpg",
-        "discount": 20
-      },
-      "product3": {
-        "name": "Personal Care",
-        "price": 45.00,
-        "image": "https://your-image-url.com/personal-care.jpg",
-        "discount": 20
+        "products": {
+          "product1": {
+            "name": "Supplements",
+            "price": 25.00,
+            "image": "assets/images/supplements.jpg",
+            "discountPercentage": 20
+          },
+          "product2": {
+            "name": "Personal Care",
+            "price": 45.00,
+            "image": "assets/images/personalcare.jpg",
+            "discountPercentage": 20
+          },
+          "product3": {
+            "name": "Cough Syrup",
+            "price": 35.00,
+            "image": "assets/images/coughsyrup.jpg",
+            "discountPercentage": 20
+          }
+        }
       }
+      
     }
-  }
-}
+    }
 

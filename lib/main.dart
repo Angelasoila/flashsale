@@ -52,7 +52,8 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(const ProviderScope(child: FlashSaleApp())); // ✅ Add ProviderScope here
+  runApp(
+      const ProviderScope(child: FlashSaleApp())); // ✅ Add ProviderScope here
 }
 
 class FlashSaleApp extends StatelessWidget {
@@ -68,4 +69,3 @@ class FlashSaleApp extends StatelessWidget {
     );
   }
 }
-

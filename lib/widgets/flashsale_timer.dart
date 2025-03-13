@@ -1,47 +1,58 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import '../providers.dart';
 
-class FlashSaleTimer extends ConsumerWidget {
-  const FlashSaleTimer({super.key});
+class FlashSaleTimer extends StatefulWidget {
+  final DateTime endsAt;
+
+  const FlashSaleTimer({super.key, required this.endsAt});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final flashSale = ref.watch(flashSaleProvider);
+  _FlashSaleTimerState createState() => _FlashSaleTimerState();
+}
 
-    if (!flashSale.hasValue || !(flashSale.value?["isActive"] ?? false)) {
-      return const SizedBox(); // No Flash Sale Active
-    }
+class _FlashSaleTimerState extends State<FlashSaleTimer> {
+  late Duration remainingTime;
+  Timer? _timer;
 
-    // ✅ Ensure Timestamp is Properly Converted to DateTime
-    final Timestamp? firestoreTimestamp = flashSale.value?["endsAt"];
-    if (firestoreTimestamp == null) {
-      return const Center(child: Text("⏳ Sale End Time Not Found", style: TextStyle(color: Colors.red)));
-    }
+  @override
+  void initState() {
+    super.initState();
+    _updateRemainingTime();
+    _startCountdown();
+  }
 
-    final DateTime saleEndTime = firestoreTimestamp.toDate(); // ✅ Convert Firestore Timestamp to DateTime
-    final Duration remainingTime = saleEndTime.difference(DateTime.now());
+  void _updateRemainingTime() {
+    setState(() {
+      remainingTime = widget.endsAt.difference(DateTime.now());
+    });
+  }
 
-    // ✅ Ensure Sale Timer is Still Valid
-    if (remainingTime.isNegative) {
-      return const Center(child: Text("⏳ Flash Sale Ended", style: TextStyle(color: Colors.red)));
-    }
+  void _startCountdown() {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      _updateRemainingTime();
+      if (remainingTime.isNegative) {
+        timer.cancel();
+        setState(() {});
+      }
+    });
+  }
 
-    // Formatting the Countdown Timer
-    String formatDuration(Duration duration) {
-      String twoDigits(int n) => n.toString().padLeft(2, '0');
-      return "${twoDigits(duration.inMinutes)}:${twoDigits(duration.inSeconds.remainder(60))}";
-    }
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (remainingTime.isNegative) return const SizedBox(); // Sale ended
 
     return Container(
-      width: double.infinity,
       padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(color: Colors.red, borderRadius: BorderRadius.circular(8)),
+      color: Colors.red.shade400,
       child: Center(
-        child: Text(
-          "Flash Sale Ends In: ${formatDuration(remainingTime)}",
-          style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+        child: Text("⏳ Sale Ends in:  ${remainingTime.inDays} Days: ${remainingTime.inHours.remainder(24)} hrs: ${remainingTime.inMinutes.remainder(60)} min: ${remainingTime.inSeconds.remainder(60)} sec",
+          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
       ),
     );
