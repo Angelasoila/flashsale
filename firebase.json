@@ -49,19 +49,25 @@
             "name": "Supplements",
             "price": 25.00,
             "image": "assets/images/supplements.jpg",
-            "discountPercentage": 20
+            "discount": 20
           },
           "product2": {
             "name": "Personal Care",
             "price": 45.00,
             "image": "assets/images/personalcare.jpg",
-            "discountPercentage": 20
+            "discount": 20
           },
           "product3": {
             "name": "Cough Syrup",
             "price": 35.00,
             "image": "assets/images/coughsyrup.jpg",
-            "discountPercentage": 20
+            "discount": 20
+          },
+          "product4": {
+            "name": "Medical Equipment",
+            "price": 35.00,
+            "image": "assets/images/medicalequipment.jpg",
+            "discount": 10
           }
         }
       }

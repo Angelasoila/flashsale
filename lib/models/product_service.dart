@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:flutter/services.dart';
-import '../models/product.dart';
 
 /// 🔄 Simulated API fetch (replace with actual API call)
 Future<List<dynamic>> fetchProductsFromAPI() async {

@@ -1,29 +1,3 @@
-/*import 'package:flutter/material.dart';
-
-class CartScreen extends StatelessWidget {
-  const CartScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text("Shopping Cart")),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text("Your Cart is Empty", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text("Go Back to Shopping"),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}*/
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../cart_provider.dart';
@@ -36,6 +10,12 @@ class CartScreen extends ConsumerWidget {
     final cartItems = ref.watch(cartProvider);
     final cartNotifier = ref.read(cartProvider.notifier);
 
+    // Calculate total price using salePrice
+    final totalPrice = cartItems.fold(
+      0.0,
+      (sum, product) => sum + product.salePrice,
+    );
+
     return Scaffold(
       appBar: AppBar(title: const Text("Cart")),
       body: cartItems.isEmpty
@@ -45,9 +25,34 @@ class CartScreen extends ConsumerWidget {
               itemBuilder: (context, index) {
                 final product = cartItems[index];
                 return ListTile(
-                  leading: Image.asset(product.image, width: 50, height: 50, fit: BoxFit.cover),
+                  leading: Image.asset(
+                    product.image,
+                    width: 50,
+                    height: 50,
+                    fit: BoxFit.cover,
+                  ),
                   title: Text(product.name),
-                  subtitle: Text("\$${product.price}"),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (product.discountPercentage > 0) ...[
+                        Text(
+                          "\$${product.price.toStringAsFixed(2)}",
+                          style: const TextStyle(
+                            decoration: TextDecoration.lineThrough,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ],
+                      Text(
+                        "\$${product.salePrice.toStringAsFixed(2)}",
+                        style: const TextStyle(
+                          color: Colors.red,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
                   trailing: IconButton(
                     icon: const Icon(Icons.delete),
                     onPressed: () => cartNotifier.removeFromCart(product),
@@ -58,7 +63,10 @@ class CartScreen extends ConsumerWidget {
       bottomNavigationBar: BottomAppBar(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Text("Total: \$${cartNotifier.totalPrice.toStringAsFixed(2)}"),
+          child: Text(
+            "Total: \$${totalPrice.toStringAsFixed(2)}",
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
         ),
       ),
     );

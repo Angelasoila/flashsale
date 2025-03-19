@@ -14,17 +14,32 @@ class Product {
   });
 
   /// ✅ Calculate Sale Price Dynamically
-  double get salePrice => price * (1 - (discountPercentage / 100));
+  double get salePrice {
+    if (discountPercentage > 0) {
+      return price - (price * discountPercentage / 100);
+    }
+    return price;
+  }
 
   /// ✅ Convert Firestore JSON to Product object
   factory Product.fromJson(Map<String, dynamic> json, String id) {
-    return Product(
+    // Parse fields with null safety and default values
+    final discount = (json["discountPercentage"] as num?)?.toInt() ?? 0;
+    final price = (json["price"] as num?)?.toDouble() ?? 0.0;
+
+    final product = Product(
       id: id,
       name: json["name"] ?? "Unknown",
       image: json["image"] ?? "assets/images/placeholder.jpg",
-      price: (json["price"] as num?)?.toDouble() ?? 0.0,  // Ensures conversion safety
-      discountPercentage: (json["discountPercentage"] as num?)?.toInt() ?? 0, // Ensures conversion safety
+      price: price,
+      discountPercentage: discount,
     );
+
+    // 🔍 Debugging: Print product details when it's created
+    print("✅ Product Loaded: ${product.name}, Price: \$${product.price}, Discount: ${product.discountPercentage}%, Sale Price: \$${product.salePrice}");
+
+    return product;
   }
 }
+
 
